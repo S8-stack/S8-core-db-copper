@@ -13,7 +13,7 @@ import com.s8.core.io.json.types.JSON_CompilingException;
 import com.s8.core.io.json.utilities.JOOS_BufferedFileReader;
 import com.s8.core.io.json.utilities.JOOS_BufferedFileWriter;
 
-public class IOModule implements H3MgIOModule<RepoMgStore> {
+public class IOModule implements H3MgIOModule<RepoStore> {
 
 	private static JSON_Lexicon lexicon;
 	
@@ -24,25 +24,25 @@ public class IOModule implements H3MgIOModule<RepoMgStore> {
 	}
 
 	
-	public final RepoMgDatabase handler;
+	public final CuRepoDB handler;
 	
 	/**
 	 * 
 	 * @param handler
 	 * @throws JSON_CompilingException
 	 */
-	public IOModule(RepoMgDatabase handler) throws JSON_CompilingException {
+	public IOModule(CuRepoDB handler) throws JSON_CompilingException {
 		super();
 		this.handler = handler;
 		
 		if(lexicon == null) { 
-			lexicon = JSON_Lexicon.from(RepoMgStoreMetadata.class); 
+			lexicon = JSON_Lexicon.from(RepoStoreMetadata.class); 
 		}
 	}
 
 
 	@Override
-	public RepoMgStore load() throws IOException, JSON_ParsingException {
+	public RepoStore load() throws IOException, JSON_ParsingException {
 
 		FileChannel channel = FileChannel.open(handler.getMetadataPath(), new OpenOption[]{ 
 				StandardOpenOption.READ
@@ -54,17 +54,17 @@ public class IOModule implements H3MgIOModule<RepoMgStore> {
 		
 		JOOS_BufferedFileReader reader = new JOOS_BufferedFileReader(channel, StandardCharsets.UTF_8, 64);
 		
-		RepoMgStoreMetadata metadata = (RepoMgStoreMetadata) lexicon.parse(reader, true);
+		RepoStoreMetadata metadata = (RepoStoreMetadata) lexicon.parse(reader, true);
 
 		reader.close();
 
-		return new RepoMgStore(handler, handler.codebase, metadata);
+		return new RepoStore(handler, handler.codebase, metadata);
 	}
 	
 	
 
 	@Override
-	public void save(RepoMgStore repo) throws IOException {
+	public void save(RepoStore repo) throws IOException {
 
 		FileChannel channel = FileChannel.open(handler.getMetadataPath(), new OpenOption[]{ 
 				StandardOpenOption.WRITE

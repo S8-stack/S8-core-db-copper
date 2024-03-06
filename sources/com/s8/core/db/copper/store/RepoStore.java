@@ -19,28 +19,28 @@ import com.s8.core.io.json.types.JSON_CompilingException;
  * @author pierreconvert
  *
  */
-public class RepoMgStore {
+public class RepoStore {
 	
 
 	public final static String METADATA_FILENAME = "store-meta.js";
 	
 	
-	public final RepoMgDatabase handler;
+	public final CuRepoDB handler;
 	
 	public final NdCodebase codebase;
 	
-	public final RepoMgStoreMetadata metadata;
+	public final RepoStoreMetadata metadata;
 	
 	
 	
 	private Path rootPath;
 	
-	public final MgPathComposer repoPathComposer;
+	public final PathComposer repoPathComposer;
 	
 	private final Map<String, MgRepositoryHandler> repositoryHandlers = new HashMap<>();
 	
 	
-	public RepoMgStore(RepoMgDatabase handler, NdCodebase codebase, RepoMgStoreMetadata metadata) {
+	public RepoStore(CuRepoDB handler, NdCodebase codebase, RepoStoreMetadata metadata) {
 		super();
 		this.handler = handler;
 		this.codebase = codebase;
@@ -48,7 +48,7 @@ public class RepoMgStore {
 		this.metadata = metadata;
 		String rootPathname = metadata.rootPathname;
 		this.rootPath = Path.of(rootPathname);
-		this.repoPathComposer = new MgPathComposer(rootPath);
+		this.repoPathComposer = new PathComposer(rootPath);
 	}
 	
 	

@@ -11,7 +11,7 @@ import java.nio.file.StandardOpenOption;
 import com.s8.core.arch.magnesium.handlers.h3.H3MgIOModule;
 import com.s8.core.arch.silicon.SiliconEngine;
 import com.s8.core.db.copper.branch.MgBranchHandler;
-import com.s8.core.db.copper.store.RepoMgStore;
+import com.s8.core.db.copper.store.RepoStore;
 import com.s8.core.io.json.JSON_Lexicon;
 import com.s8.core.io.json.composing.JSON_ComposingException;
 import com.s8.core.io.json.parsing.JSON_ParsingException;
@@ -60,7 +60,7 @@ public class IOModule implements H3MgIOModule<MgRepository> {
 		 * @param store
 		 * @return
 		 */
-		RepoMgStore store = handler.store;
+		RepoStore store = handler.store;
 		SiliconEngine ng = handler.ng;
 
 		Path path = store.composeRepositoryPath(repoMetadata.address);

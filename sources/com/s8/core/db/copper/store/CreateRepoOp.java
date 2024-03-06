@@ -27,10 +27,10 @@ import com.s8.core.io.json.types.JSON_CompilingException;
  * @author pierreconvert
  *
  */
-class CreateRepoOp extends RequestDbMgOperation<RepoMgStore> {
+class CreateRepoOp extends RequestDbMgOperation<RepoStore> {
 
 
-	public final RepoMgDatabase storeHandler;
+	public final CuRepoDB storeHandler;
 
 	public final CreateRepositoryS8Request request;
 	
@@ -45,7 +45,7 @@ class CreateRepoOp extends RequestDbMgOperation<RepoMgStore> {
 	 * @param onFailed
 	 */
 	public CreateRepoOp(long timestamp, S8User initiator, SiliconChainCallback callback, 
-			RepoMgDatabase handler, CreateRepositoryS8Request request) {
+			CuRepoDB handler, CreateRepositoryS8Request request) {
 		super(timestamp, initiator, callback);
 		this.storeHandler = handler;
 		this.request = request;
@@ -53,14 +53,14 @@ class CreateRepoOp extends RequestDbMgOperation<RepoMgStore> {
 
 
 	@Override
-	public H3MgHandler<RepoMgStore> getHandler() {
+	public H3MgHandler<RepoStore> getHandler() {
 		return storeHandler;
 	}
 
 
 	@Override
-	public ConsumeResourceMgAsyncTask<RepoMgStore> createAsyncTask() {
-		return new ConsumeResourceMgAsyncTask<RepoMgStore>(storeHandler) {
+	public ConsumeResourceMgAsyncTask<RepoStore> createAsyncTask() {
+		return new ConsumeResourceMgAsyncTask<RepoStore>(storeHandler) {
 
 
 			@Override
@@ -74,7 +74,7 @@ class CreateRepoOp extends RequestDbMgOperation<RepoMgStore> {
 			}
 
 			@Override
-			public boolean consumeResource(RepoMgStore store) throws JSON_CompilingException, IOException, S8ShellStructureException {
+			public boolean consumeResource(RepoStore store) throws JSON_CompilingException, IOException, S8ShellStructureException {
 
 
 				MgRepositoryHandler repoHandler = store.createRepositoryHandler(request.repositoryAddress);

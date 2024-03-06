@@ -19,12 +19,12 @@ import com.s8.core.io.json.types.JSON_CompilingException;
  * @author pierreconvert
  *
  */
-class CommitBranchOp extends RequestDbMgOperation<RepoMgStore> {
+class CommitBranchOp extends RequestDbMgOperation<RepoStore> {
 
 
 
 
-	public final RepoMgDatabase storeHandler;
+	public final CuRepoDB storeHandler;
 
 	public final CommitBranchS8Request request;
 
@@ -36,7 +36,7 @@ class CommitBranchOp extends RequestDbMgOperation<RepoMgStore> {
 	 * @param onFailed
 	 */
 	public CommitBranchOp(long timestamp, S8User initiator, SiliconChainCallback callback, 
-			RepoMgDatabase handler, CommitBranchS8Request request) {
+			CuRepoDB handler, CommitBranchS8Request request) {
 		super(timestamp, initiator, callback);
 		this.storeHandler = handler;
 		this.request = request;
@@ -44,14 +44,14 @@ class CommitBranchOp extends RequestDbMgOperation<RepoMgStore> {
 
 
 	@Override
-	public H3MgHandler<RepoMgStore> getHandler() {
+	public H3MgHandler<RepoStore> getHandler() {
 		return storeHandler;
 	}
 
 
 	@Override
-	public ConsumeResourceMgAsyncTask<RepoMgStore> createAsyncTask() {
-		return new ConsumeResourceMgAsyncTask<RepoMgStore>(storeHandler) {
+	public ConsumeResourceMgAsyncTask<RepoStore> createAsyncTask() {
+		return new ConsumeResourceMgAsyncTask<RepoStore>(storeHandler) {
 
 
 			@Override
@@ -66,7 +66,7 @@ class CommitBranchOp extends RequestDbMgOperation<RepoMgStore> {
 			
 
 			@Override
-			public boolean consumeResource(RepoMgStore store) throws JSON_CompilingException, IOException {
+			public boolean consumeResource(RepoStore store) throws JSON_CompilingException, IOException {
 
 				MgRepositoryHandler repoHandler = store.getRepositoryHandler(request.repositoryAddress);
 

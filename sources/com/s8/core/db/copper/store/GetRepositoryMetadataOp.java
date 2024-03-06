@@ -18,13 +18,13 @@ import com.s8.core.io.json.types.JSON_CompilingException;
  * @author pierreconvert
  *
  */
-class GetRepositoryMetadataOp extends RequestDbMgOperation<RepoMgStore> {
+class GetRepositoryMetadataOp extends RequestDbMgOperation<RepoStore> {
 
 
 
 
 
-	public final RepoMgDatabase storeHandler;
+	public final CuRepoDB storeHandler;
 
 	public final GetRepositoryMetadataS8Request request;
 	
@@ -38,7 +38,7 @@ class GetRepositoryMetadataOp extends RequestDbMgOperation<RepoMgStore> {
 	 * @param onFailed
 	 */
 	public GetRepositoryMetadataOp(long timestamp, S8User initiator, SiliconChainCallback callback, 
-			RepoMgDatabase handler, GetRepositoryMetadataS8Request request) {
+			CuRepoDB handler, GetRepositoryMetadataS8Request request) {
 		super(timestamp, initiator, callback);
 		this.storeHandler = handler;
 		this.request = request;
@@ -47,14 +47,14 @@ class GetRepositoryMetadataOp extends RequestDbMgOperation<RepoMgStore> {
 
 
 	@Override
-	public H3MgHandler<RepoMgStore> getHandler() {
+	public H3MgHandler<RepoStore> getHandler() {
 		return storeHandler;
 	}
 
 
 	@Override
-	public ConsumeResourceMgAsyncTask<RepoMgStore> createAsyncTask() {
-		return new ConsumeResourceMgAsyncTask<RepoMgStore>(storeHandler) {
+	public ConsumeResourceMgAsyncTask<RepoStore> createAsyncTask() {
+		return new ConsumeResourceMgAsyncTask<RepoStore>(storeHandler) {
 
 
 			@Override
@@ -68,7 +68,7 @@ class GetRepositoryMetadataOp extends RequestDbMgOperation<RepoMgStore> {
 			}
 
 			@Override
-			public boolean consumeResource(RepoMgStore store) throws JSON_CompilingException, IOException {
+			public boolean consumeResource(RepoStore store) throws JSON_CompilingException, IOException {
 				MgRepositoryHandler repoHandler = store.getRepositoryHandler(request.address);
 				if(repoHandler != null) {
 					repoHandler.getRepositoryMetadata(timeStamp, initiator, callback, request);

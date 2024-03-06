@@ -15,7 +15,7 @@ import com.s8.core.arch.magnesium.handlers.h3.H3MgHandler;
 import com.s8.core.arch.magnesium.handlers.h3.H3MgIOModule;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.SiliconEngine;
-import com.s8.core.db.copper.store.RepoMgStore;
+import com.s8.core.db.copper.store.RepoStore;
 import com.s8.core.io.json.types.JSON_CompilingException;
 
 /**
@@ -31,14 +31,14 @@ public class MgRepositoryHandler extends H3MgHandler<MgRepository> {
 	
 	private final IOModule ioModule;
 	
-	public final RepoMgStore store;
+	public final RepoStore store;
 	
 	public final String address;
 	
 	public final Path folderPath;
 
 	
-	public MgRepositoryHandler(SiliconEngine ng, RepoMgStore store, String address, boolean isSaved) throws JSON_CompilingException {
+	public MgRepositoryHandler(SiliconEngine ng, RepoStore store, String address, boolean isSaved) throws JSON_CompilingException {
 		super(ng, isSaved);
 		this.store = store;
 		this.address = address;
@@ -51,7 +51,7 @@ public class MgRepositoryHandler extends H3MgHandler<MgRepository> {
 	 * 
 	 * @return
 	 */
-	public RepoMgStore getStore() {
+	public RepoStore getStore() {
 		return store;
 	}
 

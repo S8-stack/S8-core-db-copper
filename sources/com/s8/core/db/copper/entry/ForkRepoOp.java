@@ -11,7 +11,7 @@ import com.s8.core.arch.magnesium.handlers.h3.H3MgHandler;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.async.MthProfile;
 import com.s8.core.db.copper.branch.MgBranchHandler;
-import com.s8.core.db.copper.store.RepoMgStore;
+import com.s8.core.db.copper.store.RepoStore;
 
 
 /**
@@ -32,7 +32,7 @@ class ForkRepoOp extends RequestDbMgOperation<MgRepository> {
 
 	public final ForkRepositoryS8Request request;
 
-	public final RepoMgStore store;
+	public final RepoStore store;
 
 	/**
 	 * 

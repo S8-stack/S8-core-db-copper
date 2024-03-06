@@ -17,7 +17,7 @@ import com.s8.core.arch.silicon.SiliconEngine;
 import com.s8.core.bohr.neodymium.branch.NdBranch;
 import com.s8.core.db.copper.entry.MgBranchMetadata;
 import com.s8.core.db.copper.entry.MgRepository;
-import com.s8.core.db.copper.store.RepoMgStore;
+import com.s8.core.db.copper.store.RepoStore;
 
 /**
  * 
@@ -77,14 +77,14 @@ public class MgBranchHandler extends H3MgHandler<NdBranch> {
 	
 
 
-	public final RepoMgStore store;
+	public final RepoStore store;
 
 	public final MgRepository repository;
 
 
 	private final H3MgIOModule<NdBranch> ioModule = new IOModule(this);
 
-	public MgBranchHandler(SiliconEngine ng, RepoMgStore store, MgRepository repository, MgBranchMetadata metadata, boolean isSaved) {
+	public MgBranchHandler(SiliconEngine ng, RepoStore store, MgRepository repository, MgBranchMetadata metadata, boolean isSaved) {
 		super(ng, isSaved);
 		this.store = store;
 		this.repository = repository;
@@ -97,7 +97,7 @@ public class MgBranchHandler extends H3MgHandler<NdBranch> {
 	 * 
 	 * @return
 	 */
-	public RepoMgStore getStore() {
+	public RepoStore getStore() {
 		return store;
 	}
 

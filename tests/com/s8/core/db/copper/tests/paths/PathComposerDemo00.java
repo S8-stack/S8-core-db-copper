@@ -1,8 +1,8 @@
-package com.s8.core.db.copper.demos.paths;
+package com.s8.core.db.copper.tests.paths;
 
 import java.nio.file.Path;
 
-import com.s8.core.db.copper.store.MgPathComposer;
+import com.s8.core.db.copper.store.PathComposer;
 
 public class PathComposerDemo00 {
 
@@ -13,7 +13,7 @@ public class PathComposerDemo00 {
 	 */
 	public static void main(String[] args) {
 
-		MgPathComposer composer = new MgPathComposer(Path.of("output"));
+		PathComposer composer = new PathComposer(Path.of("output"));
 		
 		
 		String repo = "https://toto.com/orc/project-sinchuan~023_Rf234.fld#1";

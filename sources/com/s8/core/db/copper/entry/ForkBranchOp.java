@@ -9,7 +9,7 @@ import com.s8.core.arch.magnesium.handlers.h3.H3MgHandler;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.async.MthProfile;
 import com.s8.core.db.copper.branch.MgBranchHandler;
-import com.s8.core.db.copper.store.RepoMgStore;
+import com.s8.core.db.copper.store.RepoStore;
 
 
 /**
@@ -81,7 +81,7 @@ class ForkBranchOp extends RequestDbMgOperation<MgRepository> {
 						/* add branch metadata to repo meta*/
 						repository.metadata.branches.put(request.targetBranchId, targetBranchMetadata);
 
-						RepoMgStore store = repoHandler.store;
+						RepoStore store = repoHandler.store;
 						MgBranchHandler targetBranchHandler = new MgBranchHandler(
 								handler.ng, 
 								store, 

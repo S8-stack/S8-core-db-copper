@@ -6,7 +6,7 @@ import com.s8.core.io.json.JSON_Type;
 
 
 @JSON_Type(name = "RepositoryStore")
-public class RepoMgStoreMetadata {
+public class RepoStoreMetadata {
 
 
 	@JSON_Field(name = "rootPathname") 

@@ -32,7 +32,7 @@ import com.s8.core.io.json.utilities.JOOS_BufferedFileWriter;
  * @author pc
  *
  */
-public class RepoMgDatabase extends H3MgHandler<RepoMgStore> {
+public class CuRepoDB extends H3MgHandler<RepoStore> {
 
 	
 	public final NdCodebase codebase;
@@ -42,7 +42,7 @@ public class RepoMgDatabase extends H3MgHandler<RepoMgStore> {
 	private Path rootFolderPath;
 	
 	
-	public RepoMgDatabase(SiliconEngine ng, NdCodebase codebase, Path rootFolderPath, boolean isSaved) throws JSON_CompilingException {
+	public CuRepoDB(SiliconEngine ng, NdCodebase codebase, Path rootFolderPath, boolean isSaved) throws JSON_CompilingException {
 		super(ng, isSaved);
 		this.codebase = codebase;
 		this.rootFolderPath = rootFolderPath;
@@ -56,14 +56,14 @@ public class RepoMgDatabase extends H3MgHandler<RepoMgStore> {
 	}
 
 	@Override
-	public H3MgIOModule<RepoMgStore> getIOModule() {
+	public H3MgIOModule<RepoStore> getIOModule() {
 		return ioModule;
 	}
 	
 
 	@Override
 	public List<H3MgHandler<?>> getSubHandlers() {
-		RepoMgStore store = getResource();
+		RepoStore store = getResource();
 		if(store != null) { 
 			return store.crawl(); 
 		}
@@ -79,12 +79,12 @@ public class RepoMgDatabase extends H3MgHandler<RepoMgStore> {
 	
 	
 	public Path getMetadataPath() {
-		return rootFolderPath.resolve(RepoMgStore.METADATA_FILENAME);
+		return rootFolderPath.resolve(RepoStore.METADATA_FILENAME);
 	}
 	
 	
 	public static Path getMetadataPath(Path rootFolderPath) {
-		return rootFolderPath.resolve(RepoMgStore.METADATA_FILENAME);
+		return rootFolderPath.resolve(RepoStore.METADATA_FILENAME);
 	}
 
 
@@ -175,11 +175,11 @@ public class RepoMgDatabase extends H3MgHandler<RepoMgStore> {
 	/* <utilities> */
 	
 	public static void init(String rootFolderPathname) throws IOException, JSON_CompilingException {
-		RepoMgStoreMetadata metadata = new RepoMgStoreMetadata();
+		RepoStoreMetadata metadata = new RepoStoreMetadata();
 		metadata.rootPathname = rootFolderPathname;
 		
-		JSON_Lexicon lexicon = JSON_Lexicon.from(RepoMgStoreMetadata.class);
-		FileChannel channel = FileChannel.open(Path.of(rootFolderPathname).resolve(RepoMgStore.METADATA_FILENAME), 
+		JSON_Lexicon lexicon = JSON_Lexicon.from(RepoStoreMetadata.class);
+		FileChannel channel = FileChannel.open(Path.of(rootFolderPathname).resolve(RepoStore.METADATA_FILENAME), 
 				new OpenOption[]{ StandardOpenOption.WRITE, StandardOpenOption.CREATE });
 		JOOS_BufferedFileWriter writer = new JOOS_BufferedFileWriter(channel, StandardCharsets.UTF_8, 256);
 

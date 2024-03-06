@@ -18,10 +18,10 @@ import com.s8.core.io.json.types.JSON_CompilingException;
  * @author pierreconvert
  *
  */
-class ForkBranchOp extends RequestDbMgOperation<RepoMgStore> {
+class ForkBranchOp extends RequestDbMgOperation<RepoStore> {
 
 
-	public final RepoMgDatabase storeHandler;
+	public final CuRepoDB storeHandler;
 
 	public final ForkBranchS8Request request;
 
@@ -35,7 +35,7 @@ class ForkBranchOp extends RequestDbMgOperation<RepoMgStore> {
 	 * @param onFailed
 	 */
 	public ForkBranchOp(long timestamp, S8User initiator, SiliconChainCallback callback, 
-			RepoMgDatabase handler, ForkBranchS8Request request) {
+			CuRepoDB handler, ForkBranchS8Request request) {
 		super(timestamp, initiator, callback);
 
 		/* fields */
@@ -45,14 +45,14 @@ class ForkBranchOp extends RequestDbMgOperation<RepoMgStore> {
 
 
 	@Override
-	public H3MgHandler<RepoMgStore> getHandler() {
+	public H3MgHandler<RepoStore> getHandler() {
 		return storeHandler;
 	}
 
 
 	@Override
-	public ConsumeResourceMgAsyncTask<RepoMgStore> createAsyncTask() {
-		return new ConsumeResourceMgAsyncTask<RepoMgStore>(storeHandler) {
+	public ConsumeResourceMgAsyncTask<RepoStore> createAsyncTask() {
+		return new ConsumeResourceMgAsyncTask<RepoStore>(storeHandler) {
 
 
 			@Override
@@ -66,7 +66,7 @@ class ForkBranchOp extends RequestDbMgOperation<RepoMgStore> {
 			}
 
 			@Override
-			public boolean consumeResource(RepoMgStore store) throws JSON_CompilingException, IOException {
+			public boolean consumeResource(RepoStore store) throws JSON_CompilingException, IOException {
 				MgRepositoryHandler repoHandler = store.getRepositoryHandler(request.repositoryAddress);
 				if(repoHandler != null) {
 					repoHandler.forkBranch(timeStamp, initiator, callback, request);

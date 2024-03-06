@@ -8,7 +8,7 @@ import com.s8.core.arch.magnesium.handlers.h3.H3MgIOModule;
 import com.s8.core.bohr.neodymium.branch.NdBranch;
 import com.s8.core.bohr.neodymium.branch.endpoint.NdInbound;
 import com.s8.core.bohr.neodymium.branch.endpoint.NdOutbound;
-import com.s8.core.db.copper.store.RepoMgStore;
+import com.s8.core.db.copper.store.RepoStore;
 import com.s8.core.io.bytes.linked.LinkedByteInflow;
 import com.s8.core.io.bytes.linked.LinkedByteOutflow;
 import com.s8.core.io.bytes.linked.LinkedBytes;
@@ -46,7 +46,7 @@ public class IOModule implements H3MgIOModule<NdBranch> {
 		ByteInflow inflow = new LinkedByteInflow(head);
 
 		/* build inbound session */
-		RepoMgStore store = handler.getStore();
+		RepoStore store = handler.getStore();
 		NdInbound inbound = new NdInbound(store.getCodebase());
 
 		/* build branch */
@@ -67,7 +67,7 @@ public class IOModule implements H3MgIOModule<NdBranch> {
 		LinkedByteOutflow outflow = new LinkedByteOutflow();
 
 		/* build outbound session */
-		RepoMgStore store = handler.getStore();
+		RepoStore store = handler.getStore();
 		NdOutbound outbound = new NdOutbound(store.getCodebase());
 
 		/* push branch */

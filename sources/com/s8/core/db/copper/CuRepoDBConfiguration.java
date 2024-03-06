@@ -6,18 +6,19 @@ import java.nio.file.Paths;
 import com.s8.core.arch.silicon.SiliconEngine;
 import com.s8.core.bohr.neodymium.codebase.NdCodebase;
 import com.s8.core.bohr.neodymium.exceptions.NdBuildException;
-import com.s8.core.db.copper.store.RepoMgDatabase;
+import com.s8.core.db.copper.store.CuRepoDB;
 import com.s8.core.io.json.types.JSON_CompilingException;
 import com.s8.core.io.xml.annotations.XML_SetElement;
 import com.s8.core.io.xml.annotations.XML_Type;
 
 
 @XML_Type(root=true, name = "Copper-config")
-public class CuConfiguration {
+public class CuRepoDBConfiguration {
 
 
 	public String rootFolderPathname;
 
+	
 	@XML_SetElement(tag = "path")
 	public void setRootFolderPathname(String pathname) {
 		this.rootFolderPathname = pathname;
@@ -33,17 +34,17 @@ public class CuConfiguration {
 	 * @throws NdBuildException 
 	 * @throws BeBuildException 
 	 */
-	public RepoMgDatabase create(SiliconEngine ng, Class<?>[] classes) 
+	public CuRepoDB create(SiliconEngine ng, Class<?>[] classes) 
 			throws JSON_CompilingException, NdBuildException {
 		
 		NdCodebase codebase = NdCodebase.from(classes); 
 		
 		Path rootFolderPath = Paths.get(rootFolderPathname);
 		
-		Path metadataFilePath = RepoMgDatabase.getMetadataPath(rootFolderPath);
+		Path metadataFilePath = CuRepoDB.getMetadataPath(rootFolderPath);
 		
 		boolean isSaved = metadataFilePath.toFile().exists();
 		
-		return new RepoMgDatabase(ng, codebase, rootFolderPath, isSaved);	
+		return new CuRepoDB(ng, codebase, rootFolderPath, isSaved);	
 	}
 }

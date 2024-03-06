@@ -8,14 +8,14 @@ import java.nio.file.Path;
  * @author pierreconvert
  *
  */
-public class MgPathComposer {
+public class PathComposer {
 
 	public final static int FOLDER_DEPTH = 4;
 
 	
 	private final Path root;
 	
-	public MgPathComposer(Path root) {
+	public PathComposer(Path root) {
 		this.root = root;
 	}
 	

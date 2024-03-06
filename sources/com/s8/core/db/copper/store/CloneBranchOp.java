@@ -18,10 +18,10 @@ import com.s8.core.io.json.types.JSON_CompilingException;
  * @author pierreconvert
  *
  */
-class CloneBranchOp extends RequestDbMgOperation<RepoMgStore> {
+class CloneBranchOp extends RequestDbMgOperation<RepoStore> {
 
 
-	public final RepoMgDatabase storeHandler;
+	public final CuRepoDB storeHandler;
 
 	public final CloneBranchS8Request request;
 	
@@ -35,20 +35,20 @@ class CloneBranchOp extends RequestDbMgOperation<RepoMgStore> {
 	 * @param onFailed
 	 */
 	public CloneBranchOp(long timestamp, S8User initiator, SiliconChainCallback callback, 
-			RepoMgDatabase storeHandler, CloneBranchS8Request request) {
+			CuRepoDB storeHandler, CloneBranchS8Request request) {
 		super(timestamp, initiator, callback);
 		this.storeHandler = storeHandler;
 		this.request = request;
 	}
 
 	@Override
-	public H3MgHandler<RepoMgStore> getHandler() {
+	public H3MgHandler<RepoStore> getHandler() {
 		return storeHandler;
 	}
 
 	@Override
-	public ConsumeResourceMgAsyncTask<RepoMgStore> createAsyncTask() {
-		return new ConsumeResourceMgAsyncTask<RepoMgStore>(storeHandler) {
+	public ConsumeResourceMgAsyncTask<RepoStore> createAsyncTask() {
+		return new ConsumeResourceMgAsyncTask<RepoStore>(storeHandler) {
 
 
 			@Override
@@ -62,7 +62,7 @@ class CloneBranchOp extends RequestDbMgOperation<RepoMgStore> {
 			}
 
 			@Override
-			public boolean consumeResource(RepoMgStore store) throws JSON_CompilingException, IOException {
+			public boolean consumeResource(RepoStore store) throws JSON_CompilingException, IOException {
 				MgRepositoryHandler repoHandler = store.getRepositoryHandler(request.repositoryAddress);
 
 				if(repoHandler != null) {
