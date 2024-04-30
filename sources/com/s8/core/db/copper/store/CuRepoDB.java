@@ -3,6 +3,7 @@ package com.s8.core.db.copper.store;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -178,8 +179,10 @@ public class CuRepoDB extends H3MgHandler<RepoStore> {
 		RepoStoreMetadata metadata = new RepoStoreMetadata();
 		metadata.rootPathname = rootFolderPathname;
 		
+		Path rootFolderPath = Path.of(rootFolderPathname);
+		Files.createDirectories(rootFolderPath);
 		JSON_Lexicon lexicon = JSON_Lexicon.from(RepoStoreMetadata.class);
-		FileChannel channel = FileChannel.open(Path.of(rootFolderPathname).resolve(RepoStore.METADATA_FILENAME), 
+		FileChannel channel = FileChannel.open(rootFolderPath.resolve(RepoStore.METADATA_FILENAME), 
 				new OpenOption[]{ StandardOpenOption.WRITE, StandardOpenOption.CREATE });
 		JOOS_BufferedFileWriter writer = new JOOS_BufferedFileWriter(channel, StandardCharsets.UTF_8, 256);
 
