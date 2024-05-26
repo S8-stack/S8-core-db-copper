@@ -10,8 +10,10 @@ import java.nio.file.StandardOpenOption;
 
 import com.s8.core.arch.magnesium.handlers.h3.H3MgIOModule;
 import com.s8.core.arch.silicon.SiliconEngine;
+import com.s8.core.bohr.neodymium.repository.NdRepository;
+import com.s8.core.bohr.neodymium.repository.NdRepositoryMetadata;
 import com.s8.core.db.copper.branch.MgBranchHandler;
-import com.s8.core.db.copper.store.RepoStore;
+import com.s8.core.db.copper.io.RepoStore;
 import com.s8.core.io.json.JSON_Lexicon;
 import com.s8.core.io.json.composing.JSON_ComposingException;
 import com.s8.core.io.json.parsing.JSON_ParsingException;
@@ -19,7 +21,7 @@ import com.s8.core.io.json.types.JSON_CompilingException;
 import com.s8.core.io.json.utilities.JOOS_BufferedFileReader;
 import com.s8.core.io.json.utilities.JOOS_BufferedFileWriter;
 
-public class IOModule implements H3MgIOModule<MgRepository> {
+public class IOModule implements H3MgIOModule<NdRepository> {
 
 	private static JSON_Lexicon lexicon;
 
@@ -33,13 +35,13 @@ public class IOModule implements H3MgIOModule<MgRepository> {
 		this.handler = handler;
 
 		if(lexicon == null) { 
-			lexicon = JSON_Lexicon.from(MgRepositoryMetadata.class); 
+			lexicon = JSON_Lexicon.from(NdRepositoryMetadata.class); 
 		}
 	}
 
 
 	@Override
-	public MgRepository load() throws IOException, JSON_ParsingException {
+	public NdRepository load() throws IOException, JSON_ParsingException {
 
 		FileChannel channel = FileChannel.open(handler.getMetadataFilePath(), new OpenOption[]{ 
 				StandardOpenOption.READ
@@ -51,7 +53,7 @@ public class IOModule implements H3MgIOModule<MgRepository> {
 
 		JOOS_BufferedFileReader reader = new JOOS_BufferedFileReader(channel, StandardCharsets.UTF_8, 64);
 
-		MgRepositoryMetadata repoMetadata = (MgRepositoryMetadata) lexicon.parse(reader, true);
+		NdRepositoryMetadata repoMetadata = (NdRepositoryMetadata) lexicon.parse(reader, true);
 		reader.close();
 
 		/**
@@ -65,7 +67,7 @@ public class IOModule implements H3MgIOModule<MgRepository> {
 
 		Path path = store.composeRepositoryPath(repoMetadata.address);
 
-		MgRepository repository = new MgRepository(repoMetadata, path);
+		NdRepository repository = new NdRepository(repoMetadata, path);
 		repoMetadata.branches.forEach((name, branchMetadata) -> {
 			repository.branchHandlers.put(name, 
 					new MgBranchHandler(ng, 
@@ -81,7 +83,7 @@ public class IOModule implements H3MgIOModule<MgRepository> {
 
 
 	@Override
-	public void save(MgRepository repo) throws IOException, JSON_ComposingException {
+	public void save(NdRepository repo) throws IOException, JSON_ComposingException {
 
 		
 		Files.createDirectories(handler.getFolderPath());

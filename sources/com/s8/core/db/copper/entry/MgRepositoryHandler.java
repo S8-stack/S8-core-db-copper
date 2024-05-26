@@ -15,7 +15,11 @@ import com.s8.core.arch.magnesium.handlers.h3.H3MgHandler;
 import com.s8.core.arch.magnesium.handlers.h3.H3MgIOModule;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.SiliconEngine;
-import com.s8.core.db.copper.store.RepoStore;
+import com.s8.core.bohr.neodymium.repository.NdRepository;
+import com.s8.core.db.copper.io.RepoStore;
+import com.s8.core.db.copper.operators.CloneBranchOp;
+import com.s8.core.db.copper.operators.GetBranchMetadataOp;
+import com.s8.core.db.copper.operators.GetRepoMetadataOp;
 import com.s8.core.io.json.types.JSON_CompilingException;
 
 /**
@@ -23,7 +27,7 @@ import com.s8.core.io.json.types.JSON_CompilingException;
  * @author pierreconvert
  *
  */
-public class MgRepositoryHandler extends H3MgHandler<MgRepository> {
+public class MgRepositoryHandler extends H3MgHandler<NdRepository> {
 	
 	public final static String METADATA_FILENAME = "repo-meta.js";
 	
@@ -62,13 +66,13 @@ public class MgRepositoryHandler extends H3MgHandler<MgRepository> {
 	}
 
 	@Override
-	public H3MgIOModule<MgRepository> getIOModule() {
+	public H3MgIOModule<NdRepository> getIOModule() {
 		return ioModule;
 	}
 
 	@Override
 	public List<H3MgHandler<?>> getSubHandlers() {
-		MgRepository repository = getResource();
+		NdRepository repository = getResource();
 		if(repository != null) { 
 			return repository.crawl();
 		}

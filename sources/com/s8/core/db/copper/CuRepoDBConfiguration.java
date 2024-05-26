@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import com.s8.core.arch.silicon.SiliconEngine;
 import com.s8.core.bohr.neodymium.codebase.NdCodebase;
 import com.s8.core.bohr.neodymium.exceptions.NdBuildException;
-import com.s8.core.db.copper.store.CuRepoDB;
 import com.s8.core.io.json.types.JSON_CompilingException;
 import com.s8.core.io.xml.annotations.XML_SetElement;
 import com.s8.core.io.xml.annotations.XML_Type;
@@ -41,10 +40,9 @@ public class CuRepoDBConfiguration {
 		
 		Path rootFolderPath = Paths.get(rootFolderPathname);
 		
-		Path metadataFilePath = CuRepoDB.getMetadataPath(rootFolderPath);
+		//Path metadataFilePath = CuRepoDB.getMetadataPath(rootFolderPath);
 		
-		boolean isSaved = metadataFilePath.toFile().exists();
 		
-		return new CuRepoDB(ng, codebase, rootFolderPath, isSaved);	
+		return new CuRepoDB(ng, codebase, rootFolderPath);	
 	}
 }

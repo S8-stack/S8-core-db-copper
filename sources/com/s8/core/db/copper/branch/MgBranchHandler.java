@@ -15,9 +15,9 @@ import com.s8.core.arch.magnesium.handlers.h3.H3MgIOModule;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.SiliconEngine;
 import com.s8.core.bohr.neodymium.branch.NdBranch;
-import com.s8.core.db.copper.entry.MgBranchMetadata;
-import com.s8.core.db.copper.entry.MgRepository;
-import com.s8.core.db.copper.store.RepoStore;
+import com.s8.core.bohr.neodymium.branch.NdBranchMetadata;
+import com.s8.core.bohr.neodymium.repository.NdRepository;
+import com.s8.core.db.copper.io.RepoStore;
 
 /**
  * 
@@ -29,7 +29,7 @@ public class MgBranchHandler extends H3MgHandler<NdBranch> {
 
 	public final static String BRANCH_DATA_FILENAME = "branch-data.nd";
 
-	public MgBranchMetadata metadata;
+	public NdBranchMetadata metadata;
 	
 	
 	
@@ -79,12 +79,12 @@ public class MgBranchHandler extends H3MgHandler<NdBranch> {
 
 	public final RepoStore store;
 
-	public final MgRepository repository;
+	public final NdRepository repository;
 
 
 	private final H3MgIOModule<NdBranch> ioModule = new IOModule(this);
 
-	public MgBranchHandler(SiliconEngine ng, RepoStore store, MgRepository repository, MgBranchMetadata metadata, boolean isSaved) {
+	public MgBranchHandler(SiliconEngine ng, RepoStore store, NdRepository repository, NdBranchMetadata metadata, boolean isSaved) {
 		super(ng, isSaved);
 		this.store = store;
 		this.repository = repository;

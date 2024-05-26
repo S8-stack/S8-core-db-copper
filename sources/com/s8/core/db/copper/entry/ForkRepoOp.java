@@ -10,8 +10,11 @@ import com.s8.core.arch.magnesium.handlers.h3.ConsumeResourceMgAsyncTask;
 import com.s8.core.arch.magnesium.handlers.h3.H3MgHandler;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.async.MthProfile;
+import com.s8.core.bohr.neodymium.branch.NdBranchMetadata;
+import com.s8.core.bohr.neodymium.repository.NdRepository;
+import com.s8.core.bohr.neodymium.repository.NdRepositoryMetadata;
 import com.s8.core.db.copper.branch.MgBranchHandler;
-import com.s8.core.db.copper.store.RepoStore;
+import com.s8.core.db.copper.io.RepoStore;
 
 
 /**
@@ -19,7 +22,7 @@ import com.s8.core.db.copper.store.RepoStore;
  * @author pierreconvert
  *
  */
-class ForkRepoOp extends RequestDbMgOperation<MgRepository> {
+class ForkRepoOp extends RequestDbMgOperation<NdRepository> {
 
 
 	/**
@@ -53,7 +56,7 @@ class ForkRepoOp extends RequestDbMgOperation<MgRepository> {
 
 
 	@Override
-	public H3MgHandler<MgRepository> getHandler() {
+	public H3MgHandler<NdRepository> getHandler() {
 		return repoHandler;
 	}
 
@@ -63,8 +66,8 @@ class ForkRepoOp extends RequestDbMgOperation<MgRepository> {
 	}
 
 	@Override
-	public ConsumeResourceMgAsyncTask<MgRepository> createAsyncTask() {
-		return new ConsumeResourceMgAsyncTask<MgRepository>(repoHandler) {
+	public ConsumeResourceMgAsyncTask<NdRepository> createAsyncTask() {
+		return new ConsumeResourceMgAsyncTask<NdRepository>(repoHandler) {
 
 			@Override
 			public MthProfile profile() { 
@@ -77,14 +80,14 @@ class ForkRepoOp extends RequestDbMgOperation<MgRepository> {
 			}
 
 			@Override
-			public boolean consumeResource(MgRepository repository) {
+			public boolean consumeResource(NdRepository repository) {
 
-				MgRepositoryMetadata repoMetadata = repository.metadata.shallowClone();
+				NdRepositoryMetadata repoMetadata = repository.metadata.shallowClone();
 				repoMetadata.name = request.targetRepositoryName;
 				repoMetadata.info = request.targetRepositoryInfo;
 				repoMetadata.branches = new HashMap<>();
 				
-				MgRepository targetRepository = new MgRepository(repoMetadata, targetRepositoryHandler.folderPath);
+				NdRepository targetRepository = new NdRepository(repoMetadata, targetRepositoryHandler.folderPath);
 
 
 
@@ -92,7 +95,7 @@ class ForkRepoOp extends RequestDbMgOperation<MgRepository> {
 				if(originBranchHandler != null) {
 
 					/* define a new (main) branch */
-					MgBranchMetadata targetBranchMetadata = new MgBranchMetadata();
+					NdBranchMetadata targetBranchMetadata = new NdBranchMetadata();
 					targetBranchMetadata.name = request.originBranchId;
 					targetBranchMetadata.info = "FORK from "+request.originBranchId+"["+request.originBranchVersion+"]";
 					targetBranchMetadata.headVersion = 0L;

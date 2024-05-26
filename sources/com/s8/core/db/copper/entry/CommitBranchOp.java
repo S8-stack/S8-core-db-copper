@@ -8,6 +8,7 @@ import com.s8.core.arch.magnesium.handlers.h3.ConsumeResourceMgAsyncTask;
 import com.s8.core.arch.magnesium.handlers.h3.H3MgHandler;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.async.MthProfile;
+import com.s8.core.bohr.neodymium.repository.NdRepository;
 import com.s8.core.db.copper.branch.MgBranchHandler;
 
 
@@ -16,7 +17,7 @@ import com.s8.core.db.copper.branch.MgBranchHandler;
  * @author pierreconvert
  *
  */
-class CommitBranchOp extends RequestDbMgOperation<MgRepository> {
+class CommitBranchOp extends RequestDbMgOperation<NdRepository> {
 
 
 	public final MgRepositoryHandler repoHandler;
@@ -39,14 +40,14 @@ class CommitBranchOp extends RequestDbMgOperation<MgRepository> {
 	}
 
 	@Override
-	public H3MgHandler<MgRepository> getHandler() {
+	public H3MgHandler<NdRepository> getHandler() {
 		return repoHandler;
 	}
 
 
 	@Override
-	public ConsumeResourceMgAsyncTask<MgRepository> createAsyncTask() {
-		return new ConsumeResourceMgAsyncTask<MgRepository>(repoHandler) {
+	public ConsumeResourceMgAsyncTask<NdRepository> createAsyncTask() {
+		return new ConsumeResourceMgAsyncTask<NdRepository>(repoHandler) {
 
 
 			@Override
@@ -60,7 +61,7 @@ class CommitBranchOp extends RequestDbMgOperation<MgRepository> {
 			}
 
 			@Override
-			public boolean consumeResource(MgRepository repository) {
+			public boolean consumeResource(NdRepository repository) {
 
 				MgBranchHandler branchHandler = repository.branchHandlers.get(request.branchId);
 				

@@ -8,8 +8,10 @@ import com.s8.core.arch.magnesium.handlers.h3.ConsumeResourceMgAsyncTask;
 import com.s8.core.arch.magnesium.handlers.h3.H3MgHandler;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.async.MthProfile;
+import com.s8.core.bohr.neodymium.branch.NdBranchMetadata;
+import com.s8.core.bohr.neodymium.repository.NdRepository;
 import com.s8.core.db.copper.branch.MgBranchHandler;
-import com.s8.core.db.copper.store.RepoStore;
+import com.s8.core.db.copper.io.RepoStore;
 
 
 /**
@@ -17,7 +19,7 @@ import com.s8.core.db.copper.store.RepoStore;
  * @author pierreconvert
  *
  */
-class ForkBranchOp extends RequestDbMgOperation<MgRepository> {
+class ForkBranchOp extends RequestDbMgOperation<NdRepository> {
 
 
 	public final MgRepositoryHandler repoHandler;
@@ -42,14 +44,14 @@ class ForkBranchOp extends RequestDbMgOperation<MgRepository> {
 
 
 	@Override
-	public H3MgHandler<MgRepository> getHandler() {
+	public H3MgHandler<NdRepository> getHandler() {
 		return repoHandler;
 	}
 
 
 	@Override
-	public ConsumeResourceMgAsyncTask<MgRepository> createAsyncTask() {
-		return new ConsumeResourceMgAsyncTask<MgRepository>(repoHandler) {
+	public ConsumeResourceMgAsyncTask<NdRepository> createAsyncTask() {
+		return new ConsumeResourceMgAsyncTask<NdRepository>(repoHandler) {
 
 			@Override
 			public MthProfile profile() { 
@@ -62,7 +64,7 @@ class ForkBranchOp extends RequestDbMgOperation<MgRepository> {
 			}
 
 			@Override
-			public boolean consumeResource(MgRepository repository) {
+			public boolean consumeResource(NdRepository repository) {
 
 				MgBranchHandler originBranchHandler = repository.branchHandlers.get(request.originBranchId);
 				if(originBranchHandler != null) {
@@ -70,7 +72,7 @@ class ForkBranchOp extends RequestDbMgOperation<MgRepository> {
 					if(!repository.branchHandlers.containsKey(request.targetBranchId)) {
 
 						/* define a new (main) branch */
-						MgBranchMetadata targetBranchMetadata = new MgBranchMetadata();
+						NdBranchMetadata targetBranchMetadata = new NdBranchMetadata();
 						targetBranchMetadata.name = request.targetBranchId;
 						targetBranchMetadata.owner = initiator.getUsername();
 						targetBranchMetadata.info = "FORK from "+request.originBranchId+"["+request.originBranchVersion+"]";

@@ -2,7 +2,7 @@ package com.s8.core.db.copper.tests.paths;
 
 import java.nio.file.Path;
 
-import com.s8.core.db.copper.store.PathComposer;
+import com.s8.core.db.copper.io.PathComposer;
 
 public class PathComposerDemo00 {
 

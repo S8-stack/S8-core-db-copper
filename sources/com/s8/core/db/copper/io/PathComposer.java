@@ -1,6 +1,8 @@
-package com.s8.core.db.copper.store;
+package com.s8.core.db.copper.io;
 
 import java.nio.file.Path;
+
+import com.s8.core.arch.magnesium.db.MgPathComposer;
 
 
 /**
@@ -8,7 +10,7 @@ import java.nio.file.Path;
  * @author pierreconvert
  *
  */
-public class PathComposer {
+public class PathComposer implements MgPathComposer {
 
 	public final static int FOLDER_DEPTH = 4;
 
@@ -72,6 +74,7 @@ public class PathComposer {
 	}
 	
 	
+	@Override
 	public Path composePath(String value) {
 		StringBuilder builder = new StringBuilder();
 		long hashcode = computeHashcode(value);
