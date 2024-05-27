@@ -70,6 +70,10 @@ public class IOModule implements MgIOModule<NdRepository> {
 	
 	
 	public void writeMetadata(Path resourceFolderPath, NdRepository repository) throws IOException {
+		
+		/* create folder if necessary */
+		Files.createDirectories(resourceFolderPath);
+		
 		nd.writeMetadata(repository.metadata, resourceFolderPath.resolve(METADATA_FILENAME));
 	}
 
@@ -79,9 +83,13 @@ public class IOModule implements MgIOModule<NdRepository> {
 	public void writeResource(Path resourceFolderPath, NdRepository repository) throws IOException {
 		writeMetadata(resourceFolderPath, repository);
 		for (NdBranch branch : repository.branches.values()) { 
+			
+			Path branchFolderPath = resourceFolderPath.resolve(branch.id);
+			
+			Files.createDirectories(branchFolderPath);
 
 			/* calculate path */
-			Path path = resourceFolderPath.resolve(branch.id).resolve(BRANCH_DATA_PATHNAME);
+			Path path = branchFolderPath.resolve(BRANCH_DATA_PATHNAME);
 			
 			/* write resource */
 			nd.writeBranch(branch, path);

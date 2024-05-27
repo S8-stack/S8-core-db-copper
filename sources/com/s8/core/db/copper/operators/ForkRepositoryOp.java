@@ -1,25 +1,9 @@
 package com.s8.core.db.copper.operators;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.HashMap;
-
 import com.s8.api.flow.S8User;
 import com.s8.api.flow.repository.requests.ForkRepositoryS8Request;
-import com.s8.api.flow.repository.requests.ForkRepositoryS8Request.Status;
-import com.s8.core.arch.magnesium.db.MgResourceStatus;
-import com.s8.core.arch.magnesium.db.requests.AccessMgRequest;
-import com.s8.core.arch.magnesium.handlers.h3.ConsumeResourceMgAsyncTask;
 import com.s8.core.arch.silicon.SiliconChainCallback;
-import com.s8.core.arch.silicon.async.MthProfile;
-import com.s8.core.bohr.neodymium.branch.NdBranch;
-import com.s8.core.bohr.neodymium.branch.NdBranchMetadata;
-import com.s8.core.bohr.neodymium.repository.NdRepository;
-import com.s8.core.bohr.neodymium.repository.NdRepositoryMetadata;
 import com.s8.core.db.copper.CuRepoDB;
-import com.s8.core.db.copper.branch.MgBranchHandler;
-import com.s8.core.db.copper.entry.MgRepositoryHandler;
-import com.s8.core.io.json.types.JSON_CompilingException;
 
 /**
  * 
@@ -48,8 +32,17 @@ public class ForkRepositoryOp extends CuDbOperation {
 		super(db, t, initiator, callback);
 		this.request = request;
 	}
+
+
+
+	public void process() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
+	
+	/**
 	public void process() {
 		db.processRequest(new AccessMgRequest<NdRepository>(t, request.originRepoAddress, false) {
 			public @Override MthProfile profile() { return MthProfile.FX0; }
@@ -71,7 +64,7 @@ public class ForkRepositoryOp extends CuDbOperation {
 				NdBranch originBranch = originRepository.branches.get(request.originBranchId);
 				if(originBranch != null) {
 
-					/* define a new (main) branch */
+					// define a new (main) branch 
 					NdBranchMetadata targetBranchMetadata = new NdBranchMetadata();
 					targetBranchMetadata.name = request.originBranchId;
 					targetBranchMetadata.info = "FORK from "+request.originBranchId+"["+request.originBranchVersion+"]";
@@ -87,7 +80,7 @@ public class ForkRepositoryOp extends CuDbOperation {
 							store, 
 							repository, 
 							targetBranchMetadata, 
-							false); /* just created */
+							false); // just created 
 					
 					targetRepository.branchHandlers.put(request.originBranchId, targetBranchHandler);
 
@@ -167,5 +160,6 @@ public class ForkRepositoryOp extends CuDbOperation {
 			}
 		};
 	}
+	*/
 
 }
