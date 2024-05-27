@@ -1,37 +1,34 @@
 package com.s8.core.db.copper.io;
 
 import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 
 import com.s8.core.arch.magnesium.db.MgIOException;
 import com.s8.core.arch.magnesium.db.MgIOModule;
 import com.s8.core.arch.magnesium.db.MgResourceStatus;
+import com.s8.core.bohr.neodymium.branch.NdBranch;
+import com.s8.core.bohr.neodymium.codebase.NdCodebase;
+import com.s8.core.bohr.neodymium.io.NdIOModule;
 import com.s8.core.bohr.neodymium.repository.NdRepository;
 import com.s8.core.bohr.neodymium.repository.NdRepositoryMetadata;
-import com.s8.core.db.copper.RepoStoreMetadata;
-import com.s8.core.io.json.JSON_Lexicon;
 import com.s8.core.io.json.parsing.JSON_ParsingException;
 import com.s8.core.io.json.types.JSON_CompilingException;
-import com.s8.core.io.json.utilities.JOOS_BufferedFileReader;
-import com.s8.core.io.json.utilities.JOOS_BufferedFileWriter;
 
 public class IOModule implements MgIOModule<NdRepository> {
 	
 
 	public final static String METADATA_FILENAME = "repo-meta.js";
+	
 
-	private static JSON_Lexicon lexicon;
+	/**
+	 * 
+	 */
+	public final static String BRANCH_DATA_PATHNAME = "branch-data.nd";
 
 
-	public static JSON_Lexicon JOOS_getLexicon() throws JSON_CompilingException {
-
-		return lexicon;
-	}
+	
+	public final NdIOModule nd;
 
 
 	/**
@@ -39,12 +36,9 @@ public class IOModule implements MgIOModule<NdRepository> {
 	 * @param handler
 	 * @throws JSON_CompilingException
 	 */
-	public IOModule() throws JSON_CompilingException {
+	public IOModule(NdCodebase codebase) throws JSON_CompilingException {
 		super();
-
-		if(lexicon == null) { 
-			lexicon = JSON_Lexicon.from(RepoStoreMetadata.class); 
-		}
+		this.nd = new NdIOModule(codebase);
 	}
 
 
@@ -61,23 +55,8 @@ public class IOModule implements MgIOModule<NdRepository> {
 		try {
 
 			Path dataPath = path.resolve(METADATA_FILENAME);
-			FileChannel channel = FileChannel.open(dataPath, new OpenOption[]{ 
-					StandardOpenOption.READ
-			});
-
-			/**
-			 * lexicon
-			 */
-
-			JOOS_BufferedFileReader reader = new JOOS_BufferedFileReader(channel, StandardCharsets.UTF_8, 64);
-
-			NdRepositoryMetadata metadata = (NdRepositoryMetadata) lexicon.parse(reader, true);
-
-			reader.close();
-			channel.close();
-
+			NdRepositoryMetadata metadata = nd.readMetadata(dataPath);
 			NdRepository repository = new NdRepository(metadata);
-			repository.nIO_path = dataPath;
 			return repository;
 
 		}
@@ -88,24 +67,80 @@ public class IOModule implements MgIOModule<NdRepository> {
 			throw new MgIOException(new MgResourceStatus(0x0802, e.getMessage()));
 		}	
 	}
+	
+	
+	public void writeMetadata(Path resourceFolderPath, NdRepository repository) throws IOException {
+		nd.writeMetadata(repository.metadata, resourceFolderPath.resolve(METADATA_FILENAME));
+	}
 
 
 
 	@Override
-	public void writeResource(Path path, NdRepository repository) throws IOException {
+	public void writeResource(Path resourceFolderPath, NdRepository repository) throws IOException {
+		writeMetadata(resourceFolderPath, repository);
+		for (NdBranch branch : repository.branches.values()) { 
 
-		FileChannel channel = FileChannel.open(path, new OpenOption[]{ 
-				StandardOpenOption.WRITE
-		});
+			/* calculate path */
+			Path path = resourceFolderPath.resolve(branch.id).resolve(BRANCH_DATA_PATHNAME);
+			
+			/* write resource */
+			nd.writeBranch(branch, path);
+		}
+	}
+	
 
-		JOOS_BufferedFileWriter writer = new JOOS_BufferedFileWriter(channel, StandardCharsets.UTF_8, 256);
-
-		lexicon.compose(writer, repository.metadata, "   ", false);
-
-		writer.close();
-		channel.close();
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public NdBranch createBranch(String id) {
+		return nd.createBranch(id);
 	}
 
+	
+	/**
+	 * 
+	 * @param branchId
+	 * @return
+	 * @throws IOException
+	 */
+	public NdBranch getBranch(Path resourceFolderPath, NdRepository repository, String branchId) throws IOException {
+		NdBranch branch = repository.branches.get(branchId);
+		if(branch == null) {
+
+			/* branch */
+			branch = readBranch(resourceFolderPath, branchId, false);
+			
+			/* branches */
+			repository.branches.put(branchId, branch);
+		}
+		return branch;
+
+	}
+	
+
+
+
+	/**
+	 * 
+	 * @param codebase
+	 * @param repoPath
+	 * @param id
+	 * @param isVerbose
+	 * @return
+	 * @throws IOException
+	 */
+	public NdBranch readBranch(Path repoPath, String id, boolean isVerbose) throws IOException {
+
+		/* read from disk */
+		Path path = repoPath.resolve(id).resolve(BRANCH_DATA_PATHNAME);
+		
+		return nd.readBranch(path, id, isVerbose);
+	}
+
+	
+	
 
 
 	@Override
@@ -138,4 +173,7 @@ public class IOModule implements MgIOModule<NdRepository> {
 	                 );
 	        }
 	}
+
+
+	
 }

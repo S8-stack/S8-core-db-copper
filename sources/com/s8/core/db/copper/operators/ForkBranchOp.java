@@ -50,13 +50,13 @@ public class ForkBranchOp extends CuDbOperation {
 			}
 
 			@Override
-			public boolean onResourceAccessed(Path path, MgResourceStatus status, NdRepository repository) {
+			public boolean onResourceAccessed(Path resourceFolderPath, MgResourceStatus status, NdRepository repository) {
 				try {
 					if(status.isAvailable()) {
 						if(repository.metadata.branches.containsKey(request.originBranchId)) {
 
 							/* retrieve origin branch */
-							NdBranch originBranch = repository.getBranch(db.codebase, path, request.originBranchId);
+							NdBranch originBranch = db.ioModule.getBranch(resourceFolderPath, repository, request.originBranchId);
 
 
 							/* standard cases */
@@ -73,7 +73,8 @@ public class ForkBranchOp extends CuDbOperation {
 							if(objects == null) {
 								throw new IOException("Failed to retrieve objects from origin branch");
 							}
-							NdBranch targetBranch = new NdBranch(db.codebase, request.targetBranchId);
+							NdBranch targetBranch = db.ioModule.createBranch(request.targetBranchId);
+							targetBranch.nIO_hasUnsavedChanges = true;
 
 							/* <commit> */
 							long targetVersion = targetBranch.commit(objects, 
@@ -93,6 +94,7 @@ public class ForkBranchOp extends CuDbOperation {
 
 							/* add branch metadata to repo meta*/
 							repository.metadata.branches.put(request.targetBranchId, targetBranchMetadata);
+							repository.metadata.nIO_hasUnsavedChanges = true;
 
 							repository.branches.put(request.targetBranchId, targetBranch);
 

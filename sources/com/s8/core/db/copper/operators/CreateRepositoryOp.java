@@ -66,14 +66,16 @@ public class CreateRepositoryOp extends CuDbOperation {
 			mainBranchMetadata.owner = initiator.getUsername();
 			metadata.branches.put(request.mainBranchName, mainBranchMetadata);
 
+			metadata.nIO_hasUnsavedChanges = true;
 			/* </metadata> */
 
 			NdRepository repository = new NdRepository(metadata);
 
 			/* <nd-branch> */
-			NdBranch ndBranch = new NdBranch(db.codebase, request.mainBranchName);
+			NdBranch ndBranch = db.ioModule.createBranch(request.mainBranchName);
 			long version = ndBranch.commit(request.objects, t, initiator.getUsername(), request.initialCommitComment);
 			repository.branches.put(request.mainBranchName, ndBranch);
+			ndBranch.nIO_hasUnsavedChanges = true;
 			/* </nd-branch> */
 			
 			

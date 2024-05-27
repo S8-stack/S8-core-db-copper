@@ -59,14 +59,15 @@ public class CommitBranchOp extends CuDbOperation {
 
 			
 			@Override
-			public boolean onResourceAccessed(Path path, MgResourceStatus status, NdRepository repository) {
+			public boolean onResourceAccessed(Path resourceFolderPath, MgResourceStatus status, NdRepository repository) {
 				if(status.isAvailable()) {
 					if(repository.metadata.branches.containsKey(request.branchId)) {
 						try {	
-							NdBranch branch = repository.getBranch(db.codebase, path, request.branchId);
+							NdBranch branch = db.ioModule.getBranch(resourceFolderPath, repository, mgKey);
 							
 							long version = branch.commit(request.objects, t, initiator.getUsername(), request.comment);
 							request.onResponse(Status.OK, version);
+							branch.nIO_hasUnsavedChanges = true;
 							callback.call(); /* chaining */
 							return true; /* modifications DID occured on resource */
 							

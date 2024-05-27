@@ -68,7 +68,7 @@ public class CloneBranchOp extends CuDbOperation {
 				if(status.isAvailable()) {
 					if(repository.metadata.branches.containsKey(request.branchId)) {
 						try {	
-							NdBranch branch = repository.getBranch(db.codebase, path, request.branchId);
+							NdBranch branch = db.ioModule.getBranch(path, repository, request.branchId);
 							
 
 							/* standard cases */

@@ -40,9 +40,6 @@ public class CuRepoDBConfiguration {
 		
 		Path rootFolderPath = Paths.get(rootFolderPathname);
 		
-		//Path metadataFilePath = CuRepoDB.getMetadataPath(rootFolderPath);
-		
-		
 		return new CuRepoDB(ng, codebase, rootFolderPath);	
 	}
 }
