@@ -10,8 +10,8 @@ import com.s8.api.flow.repository.requests.ForkBranchS8Request;
 import com.s8.api.flow.repository.requests.ForkBranchS8Request.Status;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.async.MthProfile;
-import com.s8.core.arch.titanium.db.MgResourceStatus;
-import com.s8.core.arch.titanium.db.requests.AccessMgRequest;
+import com.s8.core.arch.titanium.db.TiResourceStatus;
+import com.s8.core.arch.titanium.db.requests.AccessTiRequest;
 import com.s8.core.bohr.atom.S8ShellStructureException;
 import com.s8.core.bohr.neodymium.branch.NdBranch;
 import com.s8.core.bohr.neodymium.branch.NdBranchMetadata;
@@ -37,7 +37,7 @@ public class ForkBranchOp extends CuDbOperation {
 
 	public void process() {
 
-		db.processRequest(new AccessMgRequest<NdRepository>(t, request.repositoryAddress, false) {
+		db.processRequest(new AccessTiRequest<NdRepository>(t, request.repositoryAddress, false) {
 
 			@Override
 			public MthProfile profile() {
@@ -50,7 +50,7 @@ public class ForkBranchOp extends CuDbOperation {
 			}
 
 			@Override
-			public boolean onResourceAccessed(Path resourceFolderPath, MgResourceStatus status, NdRepository repository) {
+			public boolean onResourceAccessed(Path resourceFolderPath, TiResourceStatus status, NdRepository repository) {
 				try {
 					if(status.isAvailable()) {
 						if(repository.metadata.branches.containsKey(request.originBranchId)) {

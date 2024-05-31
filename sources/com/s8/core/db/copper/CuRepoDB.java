@@ -12,8 +12,8 @@ import com.s8.api.flow.repository.requests.GetBranchMetadataS8Request;
 import com.s8.api.flow.repository.requests.GetRepositoryMetadataS8Request;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.SiliconEngine;
-import com.s8.core.arch.titanium.db.MgDbSwitcher;
-import com.s8.core.arch.titanium.db.MgIOModule;
+import com.s8.core.arch.titanium.db.TiDbSwitcher;
+import com.s8.core.arch.titanium.db.TitaniumIOModule;
 import com.s8.core.bohr.neodymium.codebase.NdCodebase;
 import com.s8.core.bohr.neodymium.repository.NdRepository;
 import com.s8.core.db.copper.io.IOModule;
@@ -33,7 +33,7 @@ import com.s8.core.io.json.types.JSON_CompilingException;
  * @author pc
  *
  */
-public class CuRepoDB extends MgDbSwitcher<NdRepository> {
+public class CuRepoDB extends TiDbSwitcher<NdRepository> {
 
 
 	public final IOModule ioModule;
@@ -141,7 +141,7 @@ public class CuRepoDB extends MgDbSwitcher<NdRepository> {
 
 
 	@Override
-	public MgIOModule<NdRepository> getIOModule() {
+	public TitaniumIOModule<NdRepository> getIOModule() {
 		return ioModule;
 	}
 

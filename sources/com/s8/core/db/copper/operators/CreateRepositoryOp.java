@@ -8,7 +8,7 @@ import com.s8.api.flow.S8User;
 import com.s8.api.flow.repository.requests.CreateRepositoryS8Request;
 import com.s8.api.flow.repository.requests.CreateRepositoryS8Request.Status;
 import com.s8.core.arch.silicon.SiliconChainCallback;
-import com.s8.core.arch.titanium.db.requests.CreateMgRequest;
+import com.s8.core.arch.titanium.db.requests.CreateTiRequest;
 import com.s8.core.bohr.atom.S8ShellStructureException;
 import com.s8.core.bohr.neodymium.branch.NdBranch;
 import com.s8.core.bohr.neodymium.branch.NdBranchMetadata;
@@ -79,7 +79,7 @@ public class CreateRepositoryOp extends CuDbOperation {
 			/* </nd-branch> */
 			
 			
-			db.processRequest(new CreateMgRequest<NdRepository>(t, 
+			db.processRequest(new CreateTiRequest<NdRepository>(t, 
 					request.repositoryAddress, repository, 
 					request.isResourceSaved,
 					request.isOverrideEnabled) {

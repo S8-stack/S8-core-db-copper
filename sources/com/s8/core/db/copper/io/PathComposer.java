@@ -2,7 +2,7 @@ package com.s8.core.db.copper.io;
 
 import java.nio.file.Path;
 
-import com.s8.core.arch.titanium.db.MgPathComposer;
+import com.s8.core.arch.titanium.db.TiPathComposer;
 
 
 /**
@@ -10,7 +10,7 @@ import com.s8.core.arch.titanium.db.MgPathComposer;
  * @author pierreconvert
  *
  */
-public class PathComposer implements MgPathComposer {
+public class PathComposer implements TiPathComposer {
 
 	public final static int FOLDER_DEPTH = 4;
 

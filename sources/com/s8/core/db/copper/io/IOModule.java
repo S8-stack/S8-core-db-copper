@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.s8.core.arch.titanium.db.MgIOException;
-import com.s8.core.arch.titanium.db.MgIOModule;
-import com.s8.core.arch.titanium.db.MgResourceStatus;
+import com.s8.core.arch.titanium.db.TiIOException;
+import com.s8.core.arch.titanium.db.TitaniumIOModule;
+import com.s8.core.arch.titanium.db.TiResourceStatus;
 import com.s8.core.bohr.neodymium.branch.NdBranch;
 import com.s8.core.bohr.neodymium.codebase.NdCodebase;
 import com.s8.core.bohr.neodymium.io.NdIOModule;
@@ -15,7 +15,7 @@ import com.s8.core.bohr.neodymium.repository.NdRepositoryMetadata;
 import com.s8.core.io.json.parsing.JSON_ParsingException;
 import com.s8.core.io.json.types.JSON_CompilingException;
 
-public class IOModule implements MgIOModule<NdRepository> {
+public class IOModule implements TitaniumIOModule<NdRepository> {
 	
 
 	public final static String METADATA_FILENAME = "repo-meta.js";
@@ -51,7 +51,7 @@ public class IOModule implements MgIOModule<NdRepository> {
 	
 
 	@Override
-	public NdRepository readResource(Path path) throws MgIOException {
+	public NdRepository readResource(Path path) throws TiIOException {
 		try {
 
 			Path dataPath = path.resolve(METADATA_FILENAME);
@@ -61,10 +61,10 @@ public class IOModule implements MgIOModule<NdRepository> {
 
 		}
 		catch (JSON_ParsingException e) {
-			throw new MgIOException(new MgResourceStatus(0x0802, e.getMessage()));
+			throw new TiIOException(new TiResourceStatus(0x0802, e.getMessage()));
 		}
 		catch (IOException e) {
-			throw new MgIOException(new MgResourceStatus(0x0802, e.getMessage()));
+			throw new TiIOException(new TiResourceStatus(0x0802, e.getMessage()));
 		}	
 	}
 	
