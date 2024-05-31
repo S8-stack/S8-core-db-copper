@@ -17,7 +17,7 @@ module com.s8.core.db.copper {
 	
 	requires transitive com.s8.api;
 	requires transitive com.s8.core.arch.silicon;
-	requires transitive com.s8.core.arch.magnesium;
+	requires transitive com.s8.core.arch.titanium;
 	requires transitive com.s8.core.bohr.neodymium;
 	requires transitive com.s8.core.io.xml;
 	requires transitive com.s8.core.io.json;

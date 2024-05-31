@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.s8.core.arch.magnesium.db.MgIOException;
-import com.s8.core.arch.magnesium.db.MgIOModule;
-import com.s8.core.arch.magnesium.db.MgResourceStatus;
+import com.s8.core.arch.titanium.db.MgIOException;
+import com.s8.core.arch.titanium.db.MgIOModule;
+import com.s8.core.arch.titanium.db.MgResourceStatus;
 import com.s8.core.bohr.neodymium.branch.NdBranch;
 import com.s8.core.bohr.neodymium.codebase.NdCodebase;
 import com.s8.core.bohr.neodymium.io.NdIOModule;

@@ -5,10 +5,10 @@ import java.nio.file.Path;
 import com.s8.api.flow.S8User;
 import com.s8.api.flow.repository.requests.GetRepositoryMetadataS8Request;
 import com.s8.api.flow.repository.requests.GetRepositoryMetadataS8Request.Status;
-import com.s8.core.arch.magnesium.db.MgResourceStatus;
-import com.s8.core.arch.magnesium.db.requests.AccessMgRequest;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.async.MthProfile;
+import com.s8.core.arch.titanium.db.MgResourceStatus;
+import com.s8.core.arch.titanium.db.requests.AccessMgRequest;
 import com.s8.core.bohr.neodymium.repository.NdRepository;
 import com.s8.core.db.copper.CuRepoDB;
 

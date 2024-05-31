@@ -2,7 +2,7 @@ package com.s8.core.db.copper.io;
 
 import java.nio.file.Path;
 
-import com.s8.core.arch.magnesium.db.MgPathComposer;
+import com.s8.core.arch.titanium.db.MgPathComposer;
 
 
 /**
