@@ -8,7 +8,6 @@ import com.s8.api.flow.repository.requests.GetBranchMetadataS8Request;
 import com.s8.api.flow.repository.requests.GetBranchMetadataS8Request.Status;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.async.MthProfile;
-import com.s8.core.arch.titanium.db.TiResourceStatus;
 import com.s8.core.arch.titanium.db.requests.AccessTiRequest;
 import com.s8.core.bohr.neodymium.branch.NdBranchMetadata;
 import com.s8.core.bohr.neodymium.repository.NdRepository;
@@ -57,8 +56,8 @@ public class GetBranchMetadataOp extends CuDbOperation {
 			
 
 			@Override
-			public boolean onResourceAccessed(Path path, TiResourceStatus status, NdRepository repository) {
-				if(status.isAvailable()) {
+			public boolean onProcessed(Path path, ResponseStatus status, NdRepository repository) {
+				if(status == ResponseStatus.SUCCESSFULLY_ACCESSED) {
 					NdBranchMetadata branchMetadata = repository.metadata.branches.get(request.branchId);
 					if(branchMetadata != null) {
 						request.onSucceed(Status.OK, branchMetadata);	

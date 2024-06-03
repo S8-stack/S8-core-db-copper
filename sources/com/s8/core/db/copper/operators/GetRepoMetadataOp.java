@@ -7,7 +7,6 @@ import com.s8.api.flow.repository.requests.GetRepositoryMetadataS8Request;
 import com.s8.api.flow.repository.requests.GetRepositoryMetadataS8Request.Status;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.async.MthProfile;
-import com.s8.core.arch.titanium.db.TiResourceStatus;
 import com.s8.core.arch.titanium.db.requests.AccessTiRequest;
 import com.s8.core.bohr.neodymium.repository.NdRepository;
 import com.s8.core.db.copper.CuRepoDB;
@@ -52,8 +51,8 @@ public class GetRepoMetadataOp extends CuDbOperation {
 
 
 			@Override
-			public boolean onResourceAccessed(Path path, TiResourceStatus status, NdRepository repository) {
-				if(status.isAvailable()) {
+			public boolean onProcessed(Path path, ResponseStatus status, NdRepository repository) {
+				if(status == ResponseStatus.SUCCESSFULLY_ACCESSED) {
 	 				request.onSucceed(Status.OK, repository.metadata);
 				}
 				else {

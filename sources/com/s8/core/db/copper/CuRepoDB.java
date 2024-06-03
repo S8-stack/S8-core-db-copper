@@ -13,7 +13,7 @@ import com.s8.api.flow.repository.requests.GetRepositoryMetadataS8Request;
 import com.s8.core.arch.silicon.SiliconChainCallback;
 import com.s8.core.arch.silicon.SiliconEngine;
 import com.s8.core.arch.titanium.db.TiDbSwitcher;
-import com.s8.core.arch.titanium.db.TitaniumIOModule;
+import com.s8.core.arch.titanium.db.io.TitaniumIOModule;
 import com.s8.core.bohr.neodymium.codebase.NdCodebase;
 import com.s8.core.bohr.neodymium.repository.NdRepository;
 import com.s8.core.db.copper.io.IOModule;

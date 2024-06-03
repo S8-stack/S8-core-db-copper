@@ -4,22 +4,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.s8.core.arch.titanium.db.TiIOException;
-import com.s8.core.arch.titanium.db.TitaniumIOModule;
-import com.s8.core.arch.titanium.db.TiResourceStatus;
+import com.s8.core.arch.titanium.db.io.TitaniumIOModule;
 import com.s8.core.bohr.neodymium.branch.NdBranch;
 import com.s8.core.bohr.neodymium.codebase.NdCodebase;
 import com.s8.core.bohr.neodymium.io.NdIOModule;
 import com.s8.core.bohr.neodymium.repository.NdRepository;
 import com.s8.core.bohr.neodymium.repository.NdRepositoryMetadata;
-import com.s8.core.io.json.parsing.JSON_ParsingException;
 import com.s8.core.io.json.types.JSON_CompilingException;
 
 public class IOModule implements TitaniumIOModule<NdRepository> {
-	
+
 
 	public final static String METADATA_FILENAME = "repo-meta.js";
-	
+
 
 	/**
 	 * 
@@ -27,7 +24,7 @@ public class IOModule implements TitaniumIOModule<NdRepository> {
 	public final static String BRANCH_DATA_PATHNAME = "branch-data.nd";
 
 
-	
+
 	public final NdIOModule nd;
 
 
@@ -48,32 +45,22 @@ public class IOModule implements TitaniumIOModule<NdRepository> {
 		return dataPath.toFile().exists();
 	}
 
-	
+
 
 	@Override
-	public NdRepository readResource(Path path) throws TiIOException {
-		try {
-
-			Path dataPath = path.resolve(METADATA_FILENAME);
-			NdRepositoryMetadata metadata = nd.readMetadata(dataPath);
-			NdRepository repository = new NdRepository(metadata);
-			return repository;
-
-		}
-		catch (JSON_ParsingException e) {
-			throw new TiIOException(new TiResourceStatus(0x0802, e.getMessage()));
-		}
-		catch (IOException e) {
-			throw new TiIOException(new TiResourceStatus(0x0802, e.getMessage()));
-		}	
+	public NdRepository readResource(Path path) throws IOException {
+		Path dataPath = path.resolve(METADATA_FILENAME);
+		NdRepositoryMetadata metadata = nd.readMetadata(dataPath);
+		NdRepository repository = new NdRepository(metadata);
+		return repository;
 	}
-	
-	
+
+
 	public void writeMetadata(Path resourceFolderPath, NdRepository repository) throws IOException {
-		
+
 		/* create folder if necessary */
 		Files.createDirectories(resourceFolderPath);
-		
+
 		nd.writeMetadata(repository.metadata, resourceFolderPath.resolve(METADATA_FILENAME));
 	}
 
@@ -83,19 +70,19 @@ public class IOModule implements TitaniumIOModule<NdRepository> {
 	public void writeResource(Path resourceFolderPath, NdRepository repository) throws IOException {
 		writeMetadata(resourceFolderPath, repository);
 		for (NdBranch branch : repository.branches.values()) { 
-			
+
 			Path branchFolderPath = resourceFolderPath.resolve(branch.id);
-			
+
 			Files.createDirectories(branchFolderPath);
 
 			/* calculate path */
 			Path path = branchFolderPath.resolve(BRANCH_DATA_PATHNAME);
-			
+
 			/* write resource */
 			nd.writeBranch(branch, path);
 		}
 	}
-	
+
 
 	/**
 	 * 
@@ -106,7 +93,7 @@ public class IOModule implements TitaniumIOModule<NdRepository> {
 		return nd.createBranch(id);
 	}
 
-	
+
 	/**
 	 * 
 	 * @param branchId
@@ -119,14 +106,14 @@ public class IOModule implements TitaniumIOModule<NdRepository> {
 
 			/* branch */
 			branch = readBranch(resourceFolderPath, branchId, false);
-			
+
 			/* branches */
 			repository.branches.put(branchId, branch);
 		}
 		return branch;
 
 	}
-	
+
 
 
 
@@ -143,12 +130,12 @@ public class IOModule implements TitaniumIOModule<NdRepository> {
 
 		/* read from disk */
 		Path path = repoPath.resolve(id).resolve(BRANCH_DATA_PATHNAME);
-		
+
 		return nd.readBranch(path, id, isVerbose);
 	}
 
-	
-	
+
+
 
 
 	@Override
@@ -162,26 +149,26 @@ public class IOModule implements TitaniumIOModule<NdRepository> {
 			return false;
 		}
 	}
-	
-	
+
+
 	public void clearDirectory(Path directory) throws IOException{
-	    if (Files.exists(directory)) {
-	            Files.list(directory)
-	                 .forEach(
-	                         path -> {
-	                             try {
-	                                 if (Files.isDirectory(path)) {
-	                                     clearDirectory(path);
-	                                 }
-	                                 Files.delete(path);
-	                             } catch (IOException e) {
-	                                 // todo handle exception
-	                             }
-	                         }
-	                 );
-	        }
+		if (Files.exists(directory)) {
+			Files.list(directory)
+			.forEach(
+					path -> {
+						try {
+							if (Files.isDirectory(path)) {
+								clearDirectory(path);
+							}
+							Files.delete(path);
+						} catch (IOException e) {
+							// todo handle exception
+						}
+					}
+					);
+		}
 	}
 
 
-	
+
 }

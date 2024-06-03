@@ -92,9 +92,9 @@ public class CreateRepositoryOp extends CuDbOperation {
 
 
 				@Override
-				public void onEntryCreated(boolean isSucessful) {
+				public void onProcessed(ResponseStatus status) {
 
-					if(isSucessful) {
+					if(status == ResponseStatus.SUCCESSFULLY_CREATED) {
 						request.onResponse(Status.OK, version);
 					}
 					else {
